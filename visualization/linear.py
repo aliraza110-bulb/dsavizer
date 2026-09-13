@@ -50,7 +50,7 @@ def linear_figure(values: list[object], kind: str, highlight: object | None = No
             else:
                 figure.add_annotation(x=0, y=0.65, text="FRONT", showarrow=False)
                 figure.add_annotation(x=len(values) - 1, y=0.65, text="REAR", showarrow=False)
-        else:
+        elif kind not in {"singly linked list", "doubly linked list"}:
             for index in range(len(values) - 1):
                 figure.add_annotation(
                     x=index + 0.5,

@@ -317,7 +317,11 @@ def register_callbacks(app: Any) -> None:
         no_value = operation in {"Dequeue", "Pop", "Peek", "Display", "Traverse", "Forward Traversal", "Backward Traversal", "Minimum", "Maximum", "Inorder", "Preorder", "Postorder", "Level Order", "Height", "Leaf Traversal"}
         if operation == "Delete" and structure in {"Singly Linked List", "Doubly Linked List"}:
             no_value = True
-        needs_secondary = structure in {"Singly Linked List", "Doubly Linked List", "General Tree", "Graph"}
+        needs_secondary = (
+            (structure in {"Singly Linked List", "Doubly Linked List"} and operation in {"Insert Position", "Delete"})
+            or (structure == "General Tree" and operation == "Add Child")
+            or (structure == "Graph" and operation in {"Add Edge", "Delete Edge"})
+        )
         value_label = "Key" if structure == "Hash Table" else "Vertex" if structure == "Graph" else "Child" if structure == "General Tree" and operation == "Add Child" else "Value"
         secondary_label = "Parent" if structure == "General Tree" and operation == "Add Child" else "To" if structure == "Graph" and operation in {"Add Edge", "Delete Edge"} else "Position / second value"
         return ({"display": "none"} if no_value else {}), ({"display": "block"} if needs_secondary else {"display": "none"}), value_label, secondary_label
@@ -327,7 +331,7 @@ def register_callbacks(app: Any) -> None:
         Input("animation-play", "n_clicks"),
         Input("animation-pause", "n_clicks"),
         Input("animation-timer", "n_intervals"),
-        Input("state-store", "data"),
+        State("state-store", "data"),
     )
     def update_animation_timer(_play: int, _pause: int, _timer: int, state: dict[str, Any] | None):
         if ctx.triggered_id == "animation-pause":

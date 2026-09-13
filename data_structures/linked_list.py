@@ -11,6 +11,7 @@ class LinkedNode(Generic[Value]):
     """A node containing a value and a pointer to the next node."""
 
     def __init__(self, value: Value, next_node: "LinkedNode[Value] | None" = None) -> None:
+        self.data = value
         self.value = value
         self.next = next_node
 
